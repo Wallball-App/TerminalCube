@@ -1,0 +1,12 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name" : "vcpkg-main2",
+            "inherits" : "vcpkg-main",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE" : "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            }
+        }
+    ]
+}
