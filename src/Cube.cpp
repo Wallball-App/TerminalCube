@@ -18,7 +18,7 @@ int maxpoint;
 float midpoint;
 
 const char* PIECE_CHAR = "O";
-const char* PIECE_SEPARATOR = "";
+const char* PIECE_SEPARATOR = " ";
 constexpr const char* FACE_SEPARATOR = "    ";
 
 Cube::Cube(int size) {
@@ -248,7 +248,7 @@ void Cube::printFace(std::vector<std::vector<string>> facedata) {
 }
 
 void Cube::print() { 
-    string padding(cubesize * 2 + 1, ' ');
+    string padding(cubesize * 2 + strlen(FACE_SEPARATOR), ' ');
     //std::vector<std::vector<std::vector<string>>> Faces;
     //Faces.push_back(getFaceColors(TOP));
     auto top = getFaceColors(TOP);

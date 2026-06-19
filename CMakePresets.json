@@ -18,10 +18,7 @@
             "generator" : "Ninja",
             "cacheVariables": {
                 "VCPKG_TARGET_TRIPLET": "x64-mingw-dynamic",
-                "VCPKG_HOST_TRIPLET": "x64-mingw-dynamic",
-
-                "VCPKG_MANIFEST_NO_DEFAULT_FEATURES": "OFF",
-                "BUILD_GUI": "ON"
+                "VCPKG_HOST_TRIPLET": "x64-mingw-dynamic"
             }
         },
 
@@ -32,10 +29,7 @@
             "generator" : "Visual Studio 17 2022",
             "cacheVariables": {
                 "VCPKG_TARGET_TRIPLET": "x64-windows",
-                "VCPKG_HOST_TRIPLET": "x64-windows",
-
-                "VCPKG_MANIFEST_NO_DEFAULT_FEATURES": "OFF",
-                "BUILD_GUI": "ON"
+                "VCPKG_HOST_TRIPLET": "x64-windows"
             }
         },
         {
@@ -47,10 +41,7 @@
                 "CMAKE_C_COMPILER" : "gcc",
                 "CMAKE_CXX_COMPILER" : "g++",
                 "VCPKG_TARGET_TRIPLET": "x64-linux",
-                "VCPKG_HOST_TRIPLET": "x64-linux",
-
-                "VCPKG_MANIFEST_NO_DEFAULT_FEATURES": "OFF",
-                "BUILD_GUI": "ON"
+                "VCPKG_HOST_TRIPLET": "x64-linux"
             }
         },
         {
@@ -62,70 +53,7 @@
                 "CMAKE_C_COMPILER" : "clang",
                 "CMAKE_CXX_COMPILER" : "clang++",
                 "VCPKG_TARGET_TRIPLET": "arm64-osx",
-                "VCPKG_HOST_TRIPLET": "arm64-osx",
-
-                "VCPKG_MANIFEST_NO_DEFAULT_FEATURES": "OFF",
-                "BUILD_GUI": "ON"
-            }
-        },
-
-
-
-        {
-            "name" : "windows-mingw-cli",
-            "inherits" : "vcpkg-main",
-            "displayName": "Windows Mingw CLI-Only",
-            "generator" : "Ninja",
-            "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-mingw-dynamic",
-                "VCPKG_HOST_TRIPLET": "x64-mingw-dynamic",
-
-                "VCPKG_MANIFEST_NO_DEFAULT_FEATURES": "ON",
-                "BUILD_GUI": "OFF"
-            }
-        },
-
-        {
-            "name" : "windows-msvc-cli",
-            "inherits" : "vcpkg-main",
-            "displayName": "Windows MSVC for Visual Studio 2022 CLI-Only",
-            "generator" : "Visual Studio 17 2022",
-            "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-windows",
-                "VCPKG_HOST_TRIPLET": "x64-windows",
-                
-                "VCPKG_MANIFEST_NO_DEFAULT_FEATURES": "ON",
-                "BUILD_GUI": "OFF"
-            }
-        },
-        {
-            "name" : "linux-gcc-cli",
-            "inherits" : "vcpkg-main",
-            "displayName": "Linux GCC CLI-Only",
-            "generator" : "Ninja",
-            "cacheVariables": {
-                "CMAKE_C_COMPILER" : "gcc",
-                "CMAKE_CXX_COMPILER" : "g++",
-                "VCPKG_TARGET_TRIPLET": "x64-linux",
-                "VCPKG_HOST_TRIPLET": "x64-linux",
-                
-                "VCPKG_MANIFEST_NO_DEFAULT_FEATURES": "ON",
-                "BUILD_GUI": "OFF"
-            }
-        },
-        {
-            "name" : "macos-clang-cli",
-            "inherits" : "vcpkg-main",
-            "displayName": "MacOS Clang CLI-Only",
-            "generator" : "Ninja",
-            "cacheVariables": {
-                "CMAKE_C_COMPILER" : "clang",
-                "CMAKE_CXX_COMPILER" : "clang++",
-                "VCPKG_TARGET_TRIPLET": "arm64-osx",
-                "VCPKG_HOST_TRIPLET": "arm64-osx",
-                
-                "VCPKG_MANIFEST_NO_DEFAULT_FEATURES": "ON",
-                "BUILD_GUI": "OFF"
+                "VCPKG_HOST_TRIPLET": "arm64-osx"
             }
         }
     ],
