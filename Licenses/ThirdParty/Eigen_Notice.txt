@@ -1,5 +1,0 @@
-The Eigen Linear Algebra library is licensed under the Mozilla Public License 2.0 (MPL 2.0). The license text is provided in this directory in a file named Eigen_License.md. The releases can be found at this link: 
-https://libeigen.gitlab.io/releases/ 
-
-Clicking on a release, then clicking the GitLab link will lead to a new page, in which there will be an option to download the source code. Version 5.0 can be accessed directly through this link: 
-https://gitlab.com/libeigen/eigen/-/releases/5.0.0

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.50)
 project(TerminalCube)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 include(FetchContent)
 
 set(EIGEN_BUILD_DOC OFF CACHE INTERNAL "")
@@ -19,8 +20,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(eigen)
 FetchContent_MakeAvailable(fmt)
-
-file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 add_library(TCube STATIC src/Cube.cpp src/Algorithm_Reader.cpp)
 target_include_directories(TCube PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

@@ -31,7 +31,11 @@ Cube::Cube(int size) {
             Pieces[i][j].resize(size);
         }
     }
-    array<float, 4> values = {(float)size, (size%2 == 0) ? -size/2.0f : -(size-1)/2.0f, (size%2 == 0) ? size/2.0f : (size-1)/2.0f, size/2.0f};
+    array<float, 4> values = {
+        (float)size, 
+        (size%2 == 0) ? -size/2.0f : -(size-1)/2.0f, 
+        (size%2 == 0) ? size/2.0f: (size-1)/2.0f, 
+        /*size/2.0f*/0.0f};
     size = (int)values[0];
     minpoint = (int)values[1];
     maxpoint = (int)values[2];
@@ -43,13 +47,17 @@ Cube::Cube(int size) {
                 const bool j0 = (j == 0 || j == size - 1);
                 const bool k0 = (k == 0 || k == size - 1);
 
-                Eigen::Vector3f position;
+                float px, py, pz;
                 if(size % 2 == 0) {
-                    position = Eigen::Vector3f(static_cast<float>(i - size/2), static_cast<float>(j - size/2), static_cast<float>(k - size/2));
+                    px = static_cast<float>(i - size/2 + (i >= size/2 ? 1 : 0));
+                    py = static_cast<float>(j - size/2 + (j >= size/2 ? 1 : 0));
+                    pz = static_cast<float>(k - size/2 + (k >= size/2 ? 1 : 0));
                 } else if(size % 2 == 1) {
-                    position = Eigen::Vector3f(static_cast<float>(i - (size-1)/2), static_cast<float>(j - (size-1)/2), static_cast<float>(k - (size-1)/2));
+                    px = static_cast<float>(i - (size-1)/2);
+                    py = static_cast<float>(j - (size-1)/2);
+                    pz = static_cast<float>(k - (size-1)/2);
                 }
-
+                Eigen::Vector3f position(px, py, pz);
                 std::unique_ptr<pieces::Piece> piece;
                 if (i0 + j0 + k0 == 3) {
                     piece = std::make_unique<Corner>(values, position, position);
@@ -123,7 +131,9 @@ void Cube::rotatePiece(Piece& piece, Eigen::Matrix3f rotationMatrix) {
             edge->tileVectors[i] = roundVector(rotationMatrix * edge->tileVectors[i]);
             edge->updateOrientation();
         }
-    } 
+    } else if(auto* center = dynamic_cast<Center*>(&piece)) {
+        center->tileVectors[0] = roundVector(rotationMatrix * center->tileVectors[0]);
+    }
 }
 
 void Cube::rotateFace(Enums::FaceEnum face, int amount) {
@@ -175,9 +185,13 @@ std::vector<std::vector<string>> Cube::getFaceColors(FaceEnum face) {
     Eigen::Vector3f desirednormal = FaceNormals.at(face);
 
     //std::cout<<"Getting Face Colors For: "<<face<<std::endl;
-
+    int a0 = 0; //ROWS x COLUMNS
+    int b0 = 0;
     for (int i = minpoint; i <= maxpoint; i++) { //Rows
+        b0 = 0;
+        if(i == 0 && cubesize % 2 == 0) continue;
         for (int j = minpoint; j <= maxpoint; j++) { //Columns
+            if(j == 0 && cubesize % 2 == 0) continue;
             Eigen::Vector3f pos;
             if(face == TOP) pos = Eigen::Vector3f(j, maxpoint, i);
             if(face == BOTTOM) pos = Eigen::Vector3f(j, minpoint, -i);
@@ -187,9 +201,7 @@ std::vector<std::vector<string>> Cube::getFaceColors(FaceEnum face) {
             if(face == LEFT) pos = Eigen::Vector3f(minpoint, -i, j);//REVERSED
 
             Piece* p = getPieceAtPosition(pos);
-
-            int a0 = i - minpoint; //ROWS x COLUMNS
-            int b0 = j - minpoint;
+            if(p == nullptr) continue;
 
             if (auto* corner = dynamic_cast<Corner*>(p)) {
                 for(int l = 0; l < 3; l++) {
@@ -208,7 +220,9 @@ std::vector<std::vector<string>> Cube::getFaceColors(FaceEnum face) {
                     colors[a0][b0] = center->Colors[0];
                 }   
             }
+            b0++;
         }
+        a0++;
     }
     return colors;
 }
@@ -274,7 +288,11 @@ void Cube::reset() {
             }
         }
     }
-    array<float, 4> values = {(float)cubesize, (cubesize%2 == 0) ? -cubesize/2.0f : -(cubesize-1)/2.0f, (cubesize%2 == 0) ? cubesize/2.0f : (cubesize-1)/2.0f, cubesize/2.0f};
+    array<float, 4> values = {
+        (float)cubesize, 
+        (cubesize%2 == 0) ? -cubesize/2.0f : -(cubesize-1)/2.0f, 
+        (cubesize%2 == 0) ? cubesize/2.0f: (cubesize-1)/2.0f, 
+        /*cubesize/2.0f*/0.0f};
     cubesize = (int)values[0];
     minpoint = (int)values[1];
     maxpoint = (int)values[2];
@@ -286,13 +304,17 @@ void Cube::reset() {
                 const bool j0 = (j == 0 || j == cubesize - 1);
                 const bool k0 = (k == 0 || k == cubesize - 1);
 
-                Eigen::Vector3f position;
+                float px, py, pz;
                 if(cubesize % 2 == 0) {
-                    position = Eigen::Vector3f(static_cast<float>(i - cubesize/2), static_cast<float>(j - cubesize/2), static_cast<float>(k - cubesize/2));
+                    px = static_cast<float>(i - cubesize/2 + (i >= cubesize/2 ? 1 : 0));
+                    py = static_cast<float>(j - cubesize/2 + (j >= cubesize/2 ? 1 : 0));
+                    pz = static_cast<float>(k - cubesize/2 + (k >= cubesize/2 ? 1 : 0));
                 } else if(cubesize % 2 == 1) {
-                    position = Eigen::Vector3f(static_cast<float>(i - (cubesize-1)/2), static_cast<float>(j - (cubesize-1)/2), static_cast<float>(k - (cubesize-1)/2));
+                    px = static_cast<float>(i - (cubesize-1)/2);
+                    py = static_cast<float>(j - (cubesize-1)/2);
+                    pz = static_cast<float>(k - (cubesize-1)/2);
                 }
-
+                Eigen::Vector3f position(px, py, pz);
                 std::unique_ptr<pieces::Piece> piece;
                 if (i0 + j0 + k0 == 3) {
                     piece = std::make_unique<Corner>(values, position, position);

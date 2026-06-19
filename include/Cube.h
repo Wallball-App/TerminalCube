@@ -155,7 +155,12 @@ namespace pieces {
         array<string, 1> Colors = {"primary"};
         Eigen::Vector3f tileVectors[1]; //Center Position is ALWAYS a Unit Vector
         void init() override {
-            tileVectors[0] = position;
+            if(position.y() == maxpoint) tileVectors[0] = Enums::FaceNormals.at(Enums::FaceEnum::TOP);
+            if(position.y() == minpoint) tileVectors[0] = Enums::FaceNormals.at(Enums::FaceEnum::BOTTOM);
+            if(position.z() == maxpoint) tileVectors[0] = Enums::FaceNormals.at(Enums::FaceEnum::FRONT);
+            if(position.z() == minpoint) tileVectors[0] = Enums::FaceNormals.at(Enums::FaceEnum::BACK);
+            if(position.x() == maxpoint) tileVectors[0] = Enums::FaceNormals.at(Enums::FaceEnum::RIGHT);
+            if(position.x() == minpoint) tileVectors[0] = Enums::FaceNormals.at(Enums::FaceEnum::LEFT);
             for(const auto& [facenormal_instance, normal_vector] : Enums::FaceNormals) {
                 if(normal_vector == tileVectors[0]) {
                     Colors[0] = Enums::FaceColors.at(facenormal_instance);

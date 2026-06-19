@@ -5,7 +5,12 @@
 #include "Algorithm_Reader.h"
 
 int main() {
-    Cube cube = Cube(3);
+    int size;
+    std::cout<<"Enter Cube Size: ";
+    std::cin>>size;
+    std::cout<<std::endl;
+
+    Cube cube = Cube(size);
     Algorithm_Reader alg = Algorithm_Reader();
     std::string input;
     //cube.printFace(cube.getFaceColors(Enums::FaceEnum::RIGHT));
