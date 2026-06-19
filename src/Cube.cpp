@@ -135,7 +135,11 @@ void Cube::rotatePiece(Piece& piece, Eigen::Matrix3f rotationMatrix) {
         center->tileVectors[0] = roundVector(rotationMatrix * center->tileVectors[0]);
     }
 }
-
+void Cube::rotateLayer(Enums::FaceEnum face, int amount) {
+    Eigen::Vector3f normal = Enums::FaceNormals.at(face);
+    int pos = maxpoint + (-normal * amount).dot(normal);
+    
+}
 void Cube::rotateFace(Enums::FaceEnum face, int amount) {
     //std::cout<<"Rotating Pieces"<<std::endl;
 
