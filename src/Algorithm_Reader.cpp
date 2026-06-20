@@ -24,9 +24,12 @@ void Algorithm_Reader::parse(std::string alg, Cube& cube) {
     bool prime;
     int coef;
     int amount;
-    string letter;
 
     for(std::string move : moves) {
+        if(move.empty()) continue;
+        string letter = "";
+        prime = false;
+        wide = false;
         if(move.contains("R")) letter = "R";
         if(move.contains("U")) letter = "U";
         if(move.contains("F")) letter = "F";
@@ -34,23 +37,38 @@ void Algorithm_Reader::parse(std::string alg, Cube& cube) {
         if(move.contains("D")) letter = "D";
         if(move.contains("B")) letter = "B";
 
+        if(letter.empty()) continue;
         size_t find = move.find(letter);
         int pos;
         if(find != std::string::npos) {
-            pos = find;
-        } else {
-            throw std::runtime_error("No Move Found in Term");
+            pos = static_cast<int>(find);
         }
 
         if(move.contains("'")) prime = true;
 
         if(move.contains("w")) wide = true;
 
-        if(pos != 0) coef = move[pos-1];
-        else coef = 1;
+        coef = 1;
+        if(pos != 0 && std::isdigit(move[pos - 1])) {
+            coef = move[pos - 1] - '0';
+        }
 
-        amount = move[pos+1];
+        amount = 1;
+        if(pos + 1 < move.length() && std::isdigit(move[pos + 1])) {
+            amount = move[pos + 1] - '0';
+        }
 
-        
+        Enums::FaceEnum face = Enums::MoveToFace.at(letter);
+        if(coef > 1) {
+            if(wide) {
+                for(int i = coef; i >= 0; i--) {
+                    cube.rotateLayer(face, i, amount * (prime ? -1 : 1));
+                }
+            } else {
+                cube.rotateLayer(face, coef, amount * (prime ? -1 : 1));
+            }
+        } else {
+            cube.rotateFace(face, amount * (prime ? -1 : 1));
+        }
     }
 }

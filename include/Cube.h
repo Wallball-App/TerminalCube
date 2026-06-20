@@ -37,6 +37,14 @@ namespace Enums {
         {RIGHT, "Orange"},
         {LEFT, "Red"},
     };
+    inline std::unordered_map<string, FaceEnum> MoveToFace {
+        {"R", RIGHT},
+        {"L", LEFT},
+        {"U", TOP},
+        {"D", BOTTOM},
+        {"F", FRONT},
+        {"B", BACK},
+    };
     /*inline std::unordered_map<FaceEnum, fmt::color> FaceColors = {
         {TOP, fmt::color::yellow},
         {BOTTOM, fmt::color::white},
@@ -181,7 +189,7 @@ class Cube {
         void printFace(std::vector<std::vector<string>> facedata);
         std::vector<std::vector<string>> getFaceColors(Enums::FaceEnum face);
         void rotateFace(Enums::FaceEnum face, int amount);
-        void rotateLayer(Enums::FaceEnum face, int amount);
+        void rotateLayer(Enums::FaceEnum face, int depth, int amount);
 
         void reset();
     private:

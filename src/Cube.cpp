@@ -135,10 +135,44 @@ void Cube::rotatePiece(Piece& piece, Eigen::Matrix3f rotationMatrix) {
         center->tileVectors[0] = roundVector(rotationMatrix * center->tileVectors[0]);
     }
 }
-void Cube::rotateLayer(Enums::FaceEnum face, int amount) {
+void Cube::rotateLayer(Enums::FaceEnum face, int depth, int amount) {
+
     Eigen::Vector3f normal = Enums::FaceNormals.at(face);
-    int pos = maxpoint + (-normal * amount).dot(normal);
-    
+    int pos = maxpoint + (-normal * (depth-1)).dot(normal);
+    float angle = (float)90.0f*amount * (std::numbers::pi / 180.0f);
+    Eigen::Matrix3f rot = buildRotationMatrix(normal, angle);
+
+    std::vector<Piece*> targets;
+    if(face == Enums::FaceEnum::RIGHT || face == Enums::FaceEnum::LEFT) {
+        for(int j = minpoint; j <= maxpoint; j++) {
+            for(int k = minpoint; k <= maxpoint; k++) {
+                Piece* p = getPieceAtPosition(Eigen::Vector3f(pos, j, k));
+                if(p == nullptr) continue;
+                targets.push_back(p);
+            }
+        }
+    }
+    if(face == Enums::FaceEnum::FRONT || face == Enums::FaceEnum::BACK) {
+        for(int j = minpoint; j <= maxpoint; j++) {
+            for(int k = minpoint; k <= maxpoint; k++) {
+                Piece* p = getPieceAtPosition(Eigen::Vector3f(j, k, pos));
+                if(p == nullptr) continue;
+                targets.push_back(p);
+            }
+        }
+    }
+    if(face == Enums::FaceEnum::TOP || face == Enums::FaceEnum::BOTTOM) {
+        for(int j = minpoint; j <= maxpoint; j++) {
+            for(int k = minpoint; k <= maxpoint; k++) {
+                Piece* p = getPieceAtPosition(Eigen::Vector3f(j, pos, k));
+                if(p == nullptr) continue;
+                targets.push_back(p);
+            }
+        }
+    }
+    for(Piece* p : targets) {
+        rotatePiece(*p, rot);
+    }
 }
 void Cube::rotateFace(Enums::FaceEnum face, int amount) {
     //std::cout<<"Rotating Pieces"<<std::endl;
@@ -175,7 +209,7 @@ Piece* Cube::getPieceAtPosition(Eigen::Vector3f pos) {
     for (size_t i = 0; i < Pieces.size(); i++) { //X
         for (size_t j = 0; j < Pieces.size(); j++) { //Y
             for(size_t k = 0; k < Pieces.size(); k++) { //Z
-                if(Pieces[i][j][k] && Pieces[i][j][k]->position == pos) {
+                if(Pieces[i][j][k] && Pieces[i][j][k]->position.isApprox(pos)) {
                     return Pieces[i][j][k].get();
                 }
             }

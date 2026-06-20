@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.50)
+cmake_minimum_required(VERSION 3.25)
 project(TerminalCube)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
@@ -7,6 +7,8 @@ include(FetchContent)
 set(EIGEN_BUILD_DOC OFF CACHE INTERNAL "")
 set(EIGEN_BUILD_TESTS OFF CACHE INTERNAL "")
 set(BUILD_TESTING OFF CACHE INTERNAL "")
+
+set(BUILD_APP "Builds the Application (tcube.exe)" ON)
 
 FetchContent_Declare(
     eigen
@@ -22,8 +24,13 @@ FetchContent_MakeAvailable(eigen)
 FetchContent_MakeAvailable(fmt)
 
 add_library(TCube STATIC src/Cube.cpp src/Algorithm_Reader.cpp)
-target_include_directories(TCube PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(TCube PUBLIC 
+$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+$<INSTALL_INTERFACE:include>)
+
 target_link_libraries(TCube PUBLIC eigen fmt)
 
-add_executable(tcube src/main.cpp)
-target_link_libraries(tcube PRIVATE TCube)
+if(BUILD_APP) 
+    add_executable(tcube src/main.cpp)
+    target_link_libraries(tcube PRIVATE TCube)
+endif()
