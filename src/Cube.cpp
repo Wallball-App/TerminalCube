@@ -138,7 +138,12 @@ void Cube::rotatePiece(Piece& piece, Eigen::Matrix3f rotationMatrix) {
 void Cube::rotateLayer(Enums::FaceEnum face, int depth, int amount) {
 
     Eigen::Vector3f normal = Enums::FaceNormals.at(face);
-    int pos = maxpoint + (-normal * (depth-1)).dot(normal);
+    float dir = normal.x() + normal.y() + normal.z();
+
+    bool crosshalf = ((float)depth > cubesize / 2.0f);
+    int add = (cubesize % 2 == 0 && crosshalf) ? 1 : 0;
+    int pos = (dir > 0) ? (maxpoint - (depth - 1) - add) : (minpoint + (depth - 1) + add);
+
     float angle = (float)90.0f*amount * (std::numbers::pi / 180.0f);
     Eigen::Matrix3f rot = buildRotationMatrix(normal, angle);
 

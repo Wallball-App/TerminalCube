@@ -54,14 +54,16 @@ void Algorithm_Reader::parse(std::string alg, Cube& cube) {
         }
 
         amount = 1;
-        if(pos + 1 < move.length() && std::isdigit(move[pos + 1])) {
-            amount = move[pos + 1] - '0';
+        for(int i = 0; i < move.length() - pos; i++) {
+            if(pos + i < move.length() && std::isdigit(move[pos + i])) {
+                amount = move[pos + i] - '0';
+            }
         }
-
         Enums::FaceEnum face = Enums::MoveToFace.at(letter);
+        
         if(coef > 1) {
             if(wide) {
-                for(int i = coef; i >= 0; i--) {
+                for(int i = coef; i >= 1; i--) {
                     cube.rotateLayer(face, i, amount * (prime ? -1 : 1));
                 }
             } else {

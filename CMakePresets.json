@@ -7,30 +7,21 @@
             "description": "Sets Ninja generator, build and install directory",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}",
-                "CMAKE_TOOLCHAIN_FILE" : "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}"
             }
         },
         {
             "name" : "windows-mingw",
             "inherits" : "vcpkg-main",
             "displayName": "Windows Mingw",
-            "generator" : "Ninja",
-            "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-mingw-dynamic",
-                "VCPKG_HOST_TRIPLET": "x64-mingw-dynamic"
-            }
+            "generator" : "Ninja"
         },
 
         {
             "name" : "windows-msvc",
             "inherits" : "vcpkg-main",
             "displayName": "Windows MSVC for Visual Studio 2022",
-            "generator" : "Visual Studio 17 2022",
-            "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-windows",
-                "VCPKG_HOST_TRIPLET": "x64-windows"
-            }
+            "generator" : "Visual Studio 17 2022"
         },
         {
             "name" : "linux-gcc",
@@ -39,9 +30,7 @@
             "generator" : "Ninja",
             "cacheVariables": {
                 "CMAKE_C_COMPILER" : "gcc",
-                "CMAKE_CXX_COMPILER" : "g++",
-                "VCPKG_TARGET_TRIPLET": "x64-linux",
-                "VCPKG_HOST_TRIPLET": "x64-linux"
+                "CMAKE_CXX_COMPILER" : "g++"
             }
         },
         {
@@ -51,9 +40,7 @@
             "generator" : "Ninja",
             "cacheVariables": {
                 "CMAKE_C_COMPILER" : "clang",
-                "CMAKE_CXX_COMPILER" : "clang++",
-                "VCPKG_TARGET_TRIPLET": "arm64-osx",
-                "VCPKG_HOST_TRIPLET": "arm64-osx"
+                "CMAKE_CXX_COMPILER" : "clang++"
             }
         }
     ],

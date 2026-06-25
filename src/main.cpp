@@ -19,7 +19,8 @@ int main() {
     //cube.print();
     while(true) {
         std::cout<<"Enter Algorithm: ";
-        std::getline(std::cin, input);
+        //std::cin.get();
+        std::getline(std::cin>>std::ws, input);
         std::cout<<std::endl;
         if(input == "quit") break;
         alg.parse(input, cube);
