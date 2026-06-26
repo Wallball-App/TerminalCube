@@ -70,6 +70,12 @@ void Algorithm_Reader::parse(std::string alg, Cube& cube) {
                 cube.rotateLayer(face, coef, amount * (prime ? -1 : 1));
             }
         } else {
+            if(wide) { //Rw on 4x4 is 3 layers etc.
+                coef = cube.getSize() - 1;
+                for(int i = coef; i >= 1; i--) {
+                    cube.rotateLayer(face, i, amount * (prime ? -1 : 1));
+                }
+            }
             cube.rotateFace(face, amount * (prime ? -1 : 1));
         }
     }
